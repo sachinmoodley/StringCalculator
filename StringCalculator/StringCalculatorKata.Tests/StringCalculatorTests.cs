@@ -142,10 +142,10 @@ namespace StringCalculatorKata.Tests
         }
 
         [Test]
-        public void Add_GivenAnyLenghtOfDelimiter_ShouldReturnSum()
+        public void Add_GivenAnyLenghtOfDelimiter1_ShouldReturnSum()
         {
             //Arrange
-            var input = "//[***]\n1***2***3";
+            var input = "//[***]\n1***2**3";
             var expected = 6;
             var calculator = CreateCalculator();
 
@@ -154,8 +154,39 @@ namespace StringCalculatorKata.Tests
 
             //Assert
             Assert.AreEqual(expected,actual);
-            }
-    
+        }
+        
+        
+        [Test]
+        public void Add_GivenAnyLenghtOfDelimiter2_ShouldReturnSum()
+        {
+            //Arrange
+            var input = "//[|||]\n1|||2||3";
+            var expected = 6;
+            var calculator = CreateCalculator();
+
+            //Act
+            var actual = calculator.Add(input);
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void Add_GivenAnyLenghtOfDelimiter3_ShouldReturnSum()
+        {
+            //Arrange
+            var input = "//[---]\n1---2--3";
+            var expected = 6;
+            var calculator = CreateCalculator();
+
+            //Act
+            var actual = calculator.Add(input);
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
         private static StringCalculator CreateCalculator()
         {
             var calculator = new StringCalculator();

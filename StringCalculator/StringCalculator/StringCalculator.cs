@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Text.RegularExpressions;
 
 namespace StringCalculatorKata
 {
@@ -9,14 +12,43 @@ namespace StringCalculatorKata
         public int Add(string input)
         {
             if (input == string.Empty) { return 0; }
-           
+
+            //if (input == "//[***]\n1***2***3")
+            //{
+            //    return 6;
+            //}
+
+            //if (input == "//[|||]\n1|||2|||3")
+            //{
+            //    return 6;
+            //}
+
+            //if (input == "//[---]\n1---2---3")
+            //{
+            //    return 6;
+            //}
+
+            if (input.Contains('['))
+            {
+                var index = input.IndexOf('\n');
+                var substring = input.Substring(0, index);
+                var newDelim = substring[3];
+                input = input.Replace(newDelim, ',');
+                if (input.Contains('[') && input.Contains(']'))
+                {
+                    var start = '[';
+                    var end = ']';
+                    input = input.Replace(start, ',');
+                    input = input.Replace(end, ',');
+                }
+            }
+
             var delimiters = GetDelimiter();
             input = HandleCustomDelimiters(input);
 
             var splitNumber = SplitNumbersWithDelimiters(input, delimiters);
             var convertedNumber = ConvertStringToNumbers(splitNumber);
             var validNumbers = AddNumbersThatAreValid(convertedNumber);
-
             ContainsNegatives(convertedNumber);
 
             return validNumbers.Sum();
@@ -34,6 +66,8 @@ namespace StringCalculatorKata
                 input = input.Substring(2);
                 var customDelimiter = input[0];
                 input = input.Replace(customDelimiter, ',');
+                //input = new String(input.Where(char.IsDigit).ToArray());
+                //input = String.Join(",", input.Where(Char.IsDigit));
             }
 
             return input;
@@ -64,3 +98,9 @@ namespace StringCalculatorKata
         }
     }
 }
+/*
+ * var index = input.IndexOf('\n');
+                var substring = input.Substring(0, index);
+                var newDelim = substring[3];
+                var holder = newDelim;
+*/

@@ -9,3 +9,9 @@ C:\Users\sachin\Desktop\string calculator seed\StringCalculator\StringCalculator
 C:\Users\sachin\Desktop\string calculator seed\StringCalculator\StringCalculator\obj\Debug\StringCalculator.dll
 C:\Users\sachin\Desktop\string calculator seed\StringCalculator\StringCalculator\obj\Debug\StringCalculator.pdb
 C:\Users\sachin\Desktop\string calculator seed\StringCalculator\StringCalculator\obj\Debug\StringCalculatorKata.csprojAssemblyReference.cache
+C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\bin\Debug\StringCalculator.dll
+C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\bin\Debug\StringCalculator.pdb
+C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculatorKata.csprojAssemblyReference.cache
+C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculatorKata.csproj.CoreCompileInputs.cache
+C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculator.dll
+C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculator.pdb
