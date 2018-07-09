@@ -36,9 +36,9 @@ namespace StringCalculatorKata
             return input;
         }
 
-        private static void ThrowsExceptionIfContainsNegatives(IEnumerable<int> convertedNumber)
+        private static void ThrowsExceptionIfContainsNegatives(IEnumerable<int> negatives)
         {
-            var negativeNumbers = GetNegativeNumbers(convertedNumber);
+            var negativeNumbers = GetNegativeNumbers(negatives);
             if (negativeNumbers.Any())
             {
                 var negativeString = string.Join(",", negativeNumbers);
@@ -46,9 +46,9 @@ namespace StringCalculatorKata
             }
         }
 
-        private static IEnumerable<int> GetNegativeNumbers(IEnumerable<int> convertedNumber)
+        private static List<int> GetNegativeNumbers(IEnumerable<int> convertedNumber)
         {
-            return convertedNumber.Where(x => x < 0);
+            return convertedNumber.Where(x => x < 0).ToList();
         }
 
         private static bool StartsWithDoubleSlashes(string input)
