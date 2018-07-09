@@ -143,7 +143,6 @@ namespace StringCalculatorKata.Tests
         }
 
         [Test]
-        [Ignore("temp ignored")]
         public void Add_GivenAnyLengthOfDelimiters_ShouldReturnSum()
         {
             //------Arrange-------
@@ -158,6 +157,35 @@ namespace StringCalculatorKata.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [Test]
+        public void Add_GivenMultipleDeifferentDeliiters_ShouldReturnSum()
+        {
+            //------Arrange-------
+            var input = "//[*][%]\n1*2%3";
+            var expected = 6;
+            var sut = CreateCalculator();
+
+            //--------Act--------
+            var actual = sut.Add(input);
+
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void Add_GivenMultipleDelimitersWithAnyLenght_ShouldReturnSum()
+        {
+            //------Arrange-------
+            var input = "//[*][%]\n1*2%3";
+            var expected = 6;
+            var sut = CreateCalculator();
+
+            //--------Act--------
+            var actual = sut.Add(input);
+
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
+        }
         private static StringCalculator CreateCalculator()
         {
             return new StringCalculator();

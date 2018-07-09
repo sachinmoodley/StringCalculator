@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace StringCalculatorKata
 {
@@ -9,33 +10,12 @@ namespace StringCalculatorKata
         public int Add(string input)
         {
             if (EmptyString(input)) return 0;
-
-            if (StartsWithDoubleSlashes(input))
-            {
-                if (input.Contains("["))
-                {
-                    input = GetMultipleDelimiter(input);
-                }
-                input = GetUnknowDelimiter(input);
-            }
             var convertedNumber = AddConvertedNumbersToList(input);
-
             ThrowsExceptionIfContainsNegatives(convertedNumber);
 
             return convertedNumber.Sum();
         }
-
-        private static string GetMultipleDelimiter(string input)
-        {
-            var starting = input.IndexOf("[");
-            var end = input.IndexOf("]");
-            var slashes = input.IndexOf("//");
-            input = input.Remove(starting, end);
-            input = input.Remove(slashes);
-            input = input.Replace('*', ',');
-            return input;
-        }
-
+        
         private static void ThrowsExceptionIfContainsNegatives(IEnumerable<int> negatives)
         {
             var negativeNumbers = GetNegativeNumbers(negatives);
@@ -56,14 +36,13 @@ namespace StringCalculatorKata
             return input.StartsWith("//");
         }
 
-        private static string GetUnknowDelimiter(string input)
+        private static char[] GetUnknownDelimiter(string input)
         {
-            input = input.Substring(2);
-            var split = input.Split('\n');
-            var getNewDelimiter = Convert.ToChar(split[0]);
-            input = input.Replace(getNewDelimiter, ',');
+            var start = input.IndexOf("//");
+            var end = input.IndexOf("\n");
+            var beginingOfInput = input.Substring(start, end - start);
 
-            return input;
+            return beginingOfInput.ToCharArray();
         }
 
         private static List<int> AddConvertedNumbersToList(string input)
@@ -83,14 +62,19 @@ namespace StringCalculatorKata
 
         private static IEnumerable<string> SeperateNumbers(string input)
         {
-            return input.Split(GetDelimiters(), StringSplitOptions.RemoveEmptyEntries);
+            var delimiter = GetDelimiters(input);
+            return input.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private static char[] GetDelimiters()
+        private static char[] GetDelimiters(string input)
         {
+            if (StartsWithDoubleSlashes(input))
+            {
+                return GetUnknownDelimiter(input);
+            }
             return new[] { ',', '\n' };
         }
-
+        
         private static bool EmptyString(string input)
         {
             return input == string.Empty;
