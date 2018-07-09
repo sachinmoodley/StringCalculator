@@ -15,3 +15,9 @@ C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\obj\Debug\Str
 C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculatorKata.csproj.CoreCompileInputs.cache
 C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculator.dll
 C:\Users\sachin\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculator.pdb
+C:\Users\sachin\Katas\StringCalculator\StringCalculator\StringCalculator\bin\Debug\StringCalculator.dll
+C:\Users\sachin\Katas\StringCalculator\StringCalculator\StringCalculator\bin\Debug\StringCalculator.pdb
+C:\Users\sachin\Katas\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculatorKata.csprojAssemblyReference.cache
+C:\Users\sachin\Katas\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculatorKata.csproj.CoreCompileInputs.cache
+C:\Users\sachin\Katas\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculator.dll
+C:\Users\sachin\Katas\StringCalculator\StringCalculator\StringCalculator\obj\Debug\StringCalculator.pdb

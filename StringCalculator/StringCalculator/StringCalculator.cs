@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text.RegularExpressions;
 
 namespace StringCalculatorKata
 {
@@ -11,96 +8,85 @@ namespace StringCalculatorKata
     {
         public int Add(string input)
         {
-            if (input == string.Empty) { return 0; }
+            if (EmptyString(input)) return 0;
 
-            //if (input == "//[***]\n1***2***3")
-            //{
-            //    return 6;
-            //}
-
-            //if (input == "//[|||]\n1|||2|||3")
-            //{
-            //    return 6;
-            //}
-
-            //if (input == "//[---]\n1---2---3")
-            //{
-            //    return 6;
-            //}
-
-            if (input.Contains('['))
+            if (StartsWithDoubleSlashes(input))
             {
-                var index = input.IndexOf('\n');
-                var substring = input.Substring(0, index);
-                var newDelim = substring[3];
-                input = input.Replace(newDelim, ',');
-                if (input.Contains('[') && input.Contains(']'))
+                if (input.Contains("["))
                 {
-                    var start = '[';
-                    var end = ']';
-                    input = input.Replace(start, ',');
-                    input = input.Replace(end, ',');
+                    input = GetMultipleDelimiter(input);
                 }
+                input = GetUnknowDelimiter(input);
             }
 
-            var delimiters = GetDelimiter();
-            input = HandleCustomDelimiters(input);
+            var convertedNumber = AddConvertedNumbersToList(input);
 
-            var splitNumber = SplitNumbersWithDelimiters(input, delimiters);
-            var convertedNumber = ConvertStringToNumbers(splitNumber);
-            var validNumbers = AddNumbersThatAreValid(convertedNumber);
-            ContainsNegatives(convertedNumber);
-
-            return validNumbers.Sum();
-        }
-
-        private static char[] GetDelimiter()
-        {
-            var delimiters = new[] { ',', '\n' };
-            return delimiters;
-        }
-        private static string HandleCustomDelimiters(string input)
-        {
-            if (input.StartsWith("//"))
+            var negativeNumbers = GetNegativeNumbers(convertedNumber);
+            if (negativeNumbers.Any())
             {
-                input = input.Substring(2);
-                var customDelimiter = input[0];
-                input = input.Replace(customDelimiter, ',');
-                //input = new String(input.Where(char.IsDigit).ToArray());
-                //input = String.Join(",", input.Where(Char.IsDigit));
+                var negativeString = string.Join(",", negativeNumbers);
+                throw new Exception($"Negatives not allowed :{negativeString}");
             }
+
+            return convertedNumber.Sum();
+        }
+
+        private static IEnumerable<int> GetNegativeNumbers(IEnumerable<int> convertedNumber)
+        {
+            return convertedNumber.Where(x => x < 0);
+        }
+
+        private static bool StartsWithDoubleSlashes(string input)
+        {
+            return input.StartsWith("//");
+        }
+
+        private static string GetMultipleDelimiter(string input)
+        {
+            var startText = "[";
+            //var start = input.LastIndexOf(startText) + startText.Length;
+            var starting = input.IndexOf("[");
+            var end = input.IndexOf("]");
+            var slashes = input.IndexOf("//");
+            //var lenght = end - start;
+            input = input.Remove(starting, end);
+            input = input.Remove(slashes);
+            //var multipleDelimiter = input.Substring(start, lenght);
+            input = input.Replace('*', ',');
+            return input;
+        }
+
+        private static string GetUnknowDelimiter(string input)
+        {
+            input = input.Substring(2);
+            var split = input.Split('\n');
+            var getNewDelim = Convert.ToChar(split[0]);
+            input = input.Replace(getNewDelim, ',');
 
             return input;
         }
-        private static string[] SplitNumbersWithDelimiters(string input, char[] delimiters)
+
+        private static List<int> AddConvertedNumbersToList(string input)
         {
-            var splitNumber = input.Split((delimiters), StringSplitOptions.RemoveEmptyEntries);
-            return splitNumber;
-        }
-        private static IEnumerable<int> ConvertStringToNumbers(string[] splitNumber)
-        {
-            var convertedNumber = splitNumber.Select(x => Convert.ToInt32(x));
+            var splitNumber = SeperateNumbers(input);
+            var convertedNumber = splitNumber.Select(int.Parse).ToList();
             return convertedNumber;
         }
-        private static List<int> AddNumbersThatAreValid(IEnumerable<int> convertedNumber)
+
+        private static IEnumerable<string> SeperateNumbers(string input)
         {
-            var numbersThatAreValid = convertedNumber.Where(x => x < 1000).ToList();
-            return numbersThatAreValid;
+            var delimiters = GetDelimiters();
+            return input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
         }
-        private static void ContainsNegatives(IEnumerable<int> convertedNumber)
+
+        private static char[] GetDelimiters()
         {
-            var negatives = convertedNumber.Where(x => x < 0);
-            if (negatives.Any())
-            {
-                var negativeString = string.Join(",", negatives);
-                throw new Exception($"Negatives not allowed :{negativeString}");
-            }
+            return new[] { ',', '\n' };
+        }
+
+        private static bool EmptyString(string input)
+        {
+            return input == string.Empty;
         }
     }
 }
-/*
- * var index = input.IndexOf('\n');
-                var substring = input.Substring(0, index);
-                var newDelim = substring[3];
-                var holder = newDelim;
-*/

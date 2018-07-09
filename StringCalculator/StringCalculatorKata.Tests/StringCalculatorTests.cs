@@ -9,188 +9,141 @@ namespace StringCalculatorKata.Tests
         [Test]
         public void Add_GivenEmptyString_ShouldReturnZero()
         {
-            //Arrange 
-            var input = string.Empty;
-            var calculator = CreateCalculator();
-
-            //Act
-            var actual = calculator.Add(input);
-
-            //Assert
+            //------Arrange-------
+            var input = "";
             var expected = 0;
-            Assert.AreEqual(expected,actual);
+            var sut = CreateCalculator();
+
+            //--------Act---------
+            var actual = sut.Add(input);
+
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Add_GivenSingleNumber_ShouldReturnThatNumber()
         {
-            //Arrange 
+            //------Arrange-------
             var input = "1";
             var expected = 1;
-            var calculator = CreateCalculator();
+            var sut = CreateCalculator();
 
-            //Act
-            var actual = calculator.Add(input);
+            //--------Act---------
+            var actual = sut.Add(input);
 
-            //Assert
-            Assert.AreEqual(expected,actual);
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void Add_GivenMultipleNumbersWithCommaDelimiter_ShouldReturnSum()
+        public void Add_Given2NumbersWithACommaDelimiter_ShouldReturnSum()
         {
-            //Arrange 
-            var input = "1,2,3";
-            var expected = 6;
-            var calculator = CreateCalculator();
+            //------Arrange-------
+            var input = "1,2";
+            var expected = 3;
+            var sut = CreateCalculator();
 
-            //Act
-            var actual = calculator.Add(input);
+            //--------Act---------
+            var actual = sut.Add(input);
 
-            //Assert
-            Assert.AreEqual(actual,expected);
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void Add_HandleNewLinesInbetweenNumbers_ShouldReturnSum()
+        public void Add_GivenUnknownAmountOfNumbers_ShouldReturnSum()
         {
-            //Arrange
+            //------Arrange-------
+            var input = "1,3,5,6,4,6,4";
+            var expected = 29;
+            var sut = CreateCalculator();
+
+            //--------Act---------
+            var actual = sut.Add(input);
+
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void Add_GivenNewLineInBetweenNumbers_ShouldReturnSum()
+        {
+            //------Arrange-------
             var input = "1\n2,3";
             var expected = 6;
-            var calculator = CreateCalculator();
+            var sut = CreateCalculator();
 
-            //Act
-            var actual = calculator.Add(input);
+            //--------Act---------
+            var actual = sut.Add(input);
 
-            //Assert
+            //------Assert-------
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void Add_GivenDifferentDelimiters_ShouldSupportTheseDelimiters()
+        public void Add_GivenDifferentDelimiters_ShouldReturnSum()
         {
-            //Arrange 
+            //------Arrange-------
             var input = "//;\n1;2";
             var expected = 3;
-            var calculator = CreateCalculator();
+            var sut = CreateCalculator();
 
-            //Act 
-            var actual = calculator.Add(input);
+            //--------Act---------
+            var actual = sut.Add(input);
 
-            //Assert
-            Assert.AreEqual(actual, expected);
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void Add_GivenNegativeNumber_ShouldThrowExpectionAndThatNegativeNumber()
+        public void Add_GivenNegativeNumber_ShouldThrowException()
         {
-            //Arrange
+            //------Arrange-------
             var input = "-1";
             var expected = "Negatives not allowed :-1";
-            var calculator = CreateCalculator();
+            var sut = CreateCalculator();
 
-            //Act 
-            var actual = Assert.Throws<Exception>(() => calculator.Add(input));
+            //--------Act---------
+            var actual = Assert.Throws<Exception>(() => sut.Add(input));
 
-            //Assert 
+            //------Assert-------
             Assert.AreEqual(expected, actual.Message);
         }
 
         [Test]
-        public void Add_GivenMultipleNegativeNumbers_ShouldThrowExpectionAndDisplayNegativeNegativeNumbers( )
+        public void Add_GivenMultipleNegativeNumber_ShouldThrowException()
         {
-            //Arrange
-            var input = "-1,-2,-3";
-            var expected = "Negatives not allowed :-1,-2,-3";
-            var calculator = CreateCalculator();
-          
-            //Act 
-            var actual = Assert.Throws<Exception>(() => calculator.Add(input));
+            //------Arrange-------
+            var input = "-1,-5,-3,4,8";
+            var expected = "Negatives not allowed :-1,-5,-3";
+            var sut = CreateCalculator();
 
-            //Assert 
+            //--------Act---------
+            var actual = Assert.Throws<Exception>(() => sut.Add(input));
+
+            //------Assert-------
             Assert.AreEqual(expected, actual.Message);
         }
 
-        [Test]
-        public void Add_GivenMultipleNumbers_ShouldThrowExceptionAndDisplayOnlyTheNegativeNumbers()
-        {
-            //Arrange
-            var input = "2,-1,-2,-3,5,3";
-            var expected = "Negatives not allowed :-1,-2,-3";
-            var calculator = CreateCalculator();
+        //[Test]
+        //public void Add_GivenAnyLengthOfDelimiters_ShouldReturnSum()
+        //{
+        //    //------Arrange-------
+        //    var input = "//[***]\n1***2***3";
+        //    var expected = 6;
+        //    var sut = CreateCalculator();
 
-            //Act 
-            var actual = Assert.Throws<Exception>(() => calculator.Add(input));
+        //    //--------Act--------
+        //    var actual = sut.Add(input);
 
-            //Assert 
-            Assert.AreEqual(expected, actual.Message);
-        }
-
-        [Test]
-        public void Add_GivenNumbersGreaterThan1000_ShouldIgnoreTheseNumbers()
-        {
-            //Arrange 
-            var calculator = CreateCalculator();
-            var input = "2,1001";
-            var expected = 2;
-
-            //Act
-            var actual = calculator.Add(input);
-
-            //Assert
-            Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        public void Add_GivenAnyLenghtOfDelimiter1_ShouldReturnSum()
-        {
-            //Arrange
-            var input = "//[***]\n1***2**3";
-            var expected = 6;
-            var calculator = CreateCalculator();
-
-            //Act
-            var actual = calculator.Add(input);
-
-            //Assert
-            Assert.AreEqual(expected,actual);
-        }
-        
-        
-        [Test]
-        public void Add_GivenAnyLenghtOfDelimiter2_ShouldReturnSum()
-        {
-            //Arrange
-            var input = "//[|||]\n1|||2||3";
-            var expected = 6;
-            var calculator = CreateCalculator();
-
-            //Act
-            var actual = calculator.Add(input);
-
-            //Assert
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void Add_GivenAnyLenghtOfDelimiter3_ShouldReturnSum()
-        {
-            //Arrange
-            var input = "//[---]\n1---2--3";
-            var expected = 6;
-            var calculator = CreateCalculator();
-
-            //Act
-            var actual = calculator.Add(input);
-
-            //Assert
-            Assert.AreEqual(expected, actual);
-        }
+        //    //------Assert-------
+        //    Assert.AreEqual(expected, actual);
+        //}
 
         private static StringCalculator CreateCalculator()
         {
-            var calculator = new StringCalculator();
-            return calculator;
+            return new StringCalculator();
         }
     }
 }
