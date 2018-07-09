@@ -6,12 +6,11 @@ namespace StringCalculatorKata.Tests
     [TestFixture]
     public class StringCalculatorTests
     {
-        [Test]
-        public void Add_GivenEmptyString_ShouldReturnZero()
+        [TestCase("", 0)]
+        [TestCase(null, 0)]
+        public void Add_GivenNullOrEmptyString_ShouldReturnZero(string input, int expected)
         {
             //------Arrange-------
-            var input = "";
-            var expected = 0;
             var sut = CreateCalculator();
 
             //--------Act---------
@@ -19,7 +18,6 @@ namespace StringCalculatorKata.Tests
 
             //------Assert-------
             Assert.AreEqual(expected, actual);
-
         }
 
         [Test]

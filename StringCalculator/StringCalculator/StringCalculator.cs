@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace StringCalculatorKata
 {
@@ -9,7 +8,7 @@ namespace StringCalculatorKata
     {
         public int Add(string input)
         {
-            if (EmptyString(input)) return 0;
+            if (string.IsNullOrEmpty(input)) return 0;
             var convertedNumber = AddConvertedNumbersToList(input);
             ThrowsExceptionIfContainsNegatives(convertedNumber);
 
@@ -38,8 +37,8 @@ namespace StringCalculatorKata
 
         private static char[] GetUnknownDelimiter(string input)
         {
-            var start = input.IndexOf("//");
-            var end = input.IndexOf("\n");
+            var start = input.IndexOf("//", StringComparison.Ordinal);
+            var end = input.IndexOf("\n", StringComparison.Ordinal);
             var beginingOfInput = input.Substring(start, end - start);
 
             return beginingOfInput.ToCharArray();
@@ -75,9 +74,6 @@ namespace StringCalculatorKata
             return new[] { ',', '\n' };
         }
         
-        private static bool EmptyString(string input)
-        {
-            return input == string.Empty;
-        }
+
     }
 }
