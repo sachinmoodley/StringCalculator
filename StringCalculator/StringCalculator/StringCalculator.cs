@@ -25,6 +25,17 @@ namespace StringCalculatorKata
             return convertedNumber.Sum();
         }
 
+        private static string GetMultipleDelimiter(string input)
+        {
+            var starting = input.IndexOf("[");
+            var end = input.IndexOf("]");
+            var slashes = input.IndexOf("//");
+            input = input.Remove(starting, end);
+            input = input.Remove(slashes);
+            input = input.Replace('*', ',');
+            return input;
+        }
+
         private static void ThrowsExceptionIfContainsNegatives(IEnumerable<int> convertedNumber)
         {
             var negativeNumbers = GetNegativeNumbers(convertedNumber);
@@ -45,27 +56,12 @@ namespace StringCalculatorKata
             return input.StartsWith("//");
         }
 
-        private static string GetMultipleDelimiter(string input)
-        {
-            var startText = "[";
-            //var start = input.LastIndexOf(startText) + startText.Length;
-            var starting = input.IndexOf("[");
-            var end = input.IndexOf("]");
-            var slashes = input.IndexOf("//");
-            //var lenght = end - start;
-            input = input.Remove(starting, end);
-            input = input.Remove(slashes);
-            //var multipleDelimiter = input.Substring(start, lenght);
-            input = input.Replace('*', ',');
-            return input;
-        }
-
         private static string GetUnknowDelimiter(string input)
         {
             input = input.Substring(2);
             var split = input.Split('\n');
-            var getNewDelim = Convert.ToChar(split[0]);
-            input = input.Replace(getNewDelim, ',');
+            var getNewDelimiter = Convert.ToChar(split[0]);
+            input = input.Replace(getNewDelimiter, ',');
 
             return input;
         }
@@ -97,7 +93,7 @@ namespace StringCalculatorKata
 
         private static bool EmptyString(string input)
         {
-            return input == String.Empty;
+            return input == string.Empty;
         }
     }
 }
