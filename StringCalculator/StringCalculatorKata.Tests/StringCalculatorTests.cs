@@ -19,6 +19,7 @@ namespace StringCalculatorKata.Tests
 
             //------Assert-------
             Assert.AreEqual(expected, actual);
+
         }
 
         [Test]
@@ -126,20 +127,36 @@ namespace StringCalculatorKata.Tests
             Assert.AreEqual(expected, actual.Message);
         }
 
-        //[Test]
-        //public void Add_GivenAnyLengthOfDelimiters_ShouldReturnSum()
-        //{
-        //    //------Arrange-------
-        //    var input = "//[***]\n1***2***3";
-        //    var expected = 6;
-        //    var sut = CreateCalculator();
+        [Test]
+        public void Add_GivenNumberGreaterThan1000_ShouldIgnoreNumber()
+        {
+            //------Arrange-------
+            var input = "2,1002";
+            var expected = 2;
+            var sut = CreateCalculator();
 
-        //    //--------Act--------
-        //    var actual = sut.Add(input);
+            //--------Act---------
+            var actual = sut.Add(input);
 
-        //    //------Assert-------
-        //    Assert.AreEqual(expected, actual);
-        //}
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        [Ignore("temp ignored")]
+        public void Add_GivenAnyLengthOfDelimiters_ShouldReturnSum()
+        {
+            //------Arrange-------
+            var input = "//[***]\n1***2***3";
+            var expected = 6;
+            var sut = CreateCalculator();
+
+            //--------Act--------
+            var actual = sut.Add(input);
+
+            //------Assert-------
+            Assert.AreEqual(expected, actual);
+        }
 
         private static StringCalculator CreateCalculator()
         {

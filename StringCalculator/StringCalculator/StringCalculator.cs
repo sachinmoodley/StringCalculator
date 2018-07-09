@@ -18,17 +18,21 @@ namespace StringCalculatorKata
                 }
                 input = GetUnknowDelimiter(input);
             }
-
             var convertedNumber = AddConvertedNumbersToList(input);
 
+            ThrowsExceptionIfContainsNegatives(convertedNumber);
+
+            return convertedNumber.Sum();
+        }
+
+        private static void ThrowsExceptionIfContainsNegatives(IEnumerable<int> convertedNumber)
+        {
             var negativeNumbers = GetNegativeNumbers(convertedNumber);
             if (negativeNumbers.Any())
             {
                 var negativeString = string.Join(",", negativeNumbers);
                 throw new Exception($"Negatives not allowed :{negativeString}");
             }
-
-            return convertedNumber.Sum();
         }
 
         private static IEnumerable<int> GetNegativeNumbers(IEnumerable<int> convertedNumber)
@@ -68,15 +72,22 @@ namespace StringCalculatorKata
 
         private static List<int> AddConvertedNumbersToList(string input)
         {
-            var splitNumber = SeperateNumbers(input);
-            var convertedNumber = splitNumber.Select(int.Parse).ToList();
-            return convertedNumber;
+            return ValidNumbers(input).ToList();
+        }
+
+        private static IEnumerable<int> ValidNumbers(string input)
+        {
+            return ConvertNumber(input).Where(x => x < 1000);
+        }
+
+        private static IEnumerable<int> ConvertNumber(string input)
+        {
+            return SeperateNumbers(input).Select(int.Parse);
         }
 
         private static IEnumerable<string> SeperateNumbers(string input)
         {
-            var delimiters = GetDelimiters();
-            return input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+            return input.Split(GetDelimiters(), StringSplitOptions.RemoveEmptyEntries);
         }
 
         private static char[] GetDelimiters()
@@ -86,7 +97,7 @@ namespace StringCalculatorKata
 
         private static bool EmptyString(string input)
         {
-            return input == string.Empty;
+            return input == String.Empty;
         }
     }
 }
