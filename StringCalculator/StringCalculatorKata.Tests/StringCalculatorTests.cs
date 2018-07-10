@@ -20,10 +20,10 @@ namespace StringCalculatorKata.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase("1",1)]
+        [TestCase("1", 1)]
         [TestCase("13", 13)]
         [TestCase("145", 145)]
-        public void Add_GivenSingleNumber_ShouldReturnThatNumber(string input , int expected)
+        public void Add_GivenSingleNumber_ShouldReturnThatNumber(string input, int expected)
         {
             //------Arrange-------
             var sut = CreateCalculator();
@@ -80,25 +80,10 @@ namespace StringCalculatorKata.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void Add_GivenNegativeNumber_ShouldThrowException()
-        {
-            //------Arrange-------
-            var input = "-1";
-            var expected = "Negatives not allowed :-1";
-            var sut = CreateCalculator();
-
-            //--------Act---------
-            var actual = Assert.Throws<Exception>(() => sut.Add(input));
-
-            //------Assert-------
-            Assert.AreEqual(expected, actual.Message);
-        }
-
         [TestCase("-1", "Negatives not allowed :-1")]
         [TestCase("-1,-4,-2", "Negatives not allowed :-1,-4,-2")]
         [TestCase("-1,-5,-3,4,8", "Negatives not allowed :-1,-5,-3")]
-        public void Add_GivenAnyAmountOfNegativeNumber_ShouldThrowExceptionAndMessageOfOnlyNegatives(string input , string expected)
+        public void Add_GivenAnyAmountOfNegativeNumbers_ShouldThrowExceptionAndMessageOfOnlyNegatives(string input, string expected)
         {
             //------Arrange-------
             var sut = CreateCalculator();
@@ -110,12 +95,12 @@ namespace StringCalculatorKata.Tests
             Assert.AreEqual(expected, actual.Message);
         }
 
-        [Test]
-        public void Add_GivenNumberGreaterThan1000_ShouldIgnoreNumber()
+        [TestCase("2,1002", 2)]
+        [TestCase("999,1000,1001", 999)]
+        [TestCase("1,11,111,1111", 123)]
+        public void Add_GivenNumberGreaterThan1000_ShouldIgnoreNumber(string input, int expected)
         {
             //------Arrange-------
-            var input = "2,1002";
-            var expected = 2;
             var sut = CreateCalculator();
 
             //--------Act---------
@@ -125,12 +110,12 @@ namespace StringCalculatorKata.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void Add_GivenAnyLengthOfDelimiters_ShouldReturnSum()
+        [TestCase("//[***]\n1***2***3", 6)]
+        [TestCase("//[|||]\n4|||5|||3", 12)]
+        [TestCase("//[---]\n4---4---33", 41)]
+        public void Add_GivenAnyLengthOfDelimiters_ShouldReturnSum(string input, int expected)
         {
             //------Arrange-------
-            var input = "//[***]\n1***2***3";
-            var expected = 6;
             var sut = CreateCalculator();
 
             //--------Act--------
@@ -140,12 +125,12 @@ namespace StringCalculatorKata.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void Add_GivenMultipleDeifferentDeliiters_ShouldReturnSum()
+        [TestCase("//[*][%]\n1*2%3", 6)]
+        [TestCase("//[|][!]\n4|32!4", 40)]
+        [TestCase("//[=][-]\n7=34-23", 64)]
+        public void Add_GivenMultipleDeifferentDeliiters_ShouldReturnSum(string input, int expected)
         {
             //------Arrange-------
-            var input = "//[*][%]\n1*2%3";
-            var expected = 6;
             var sut = CreateCalculator();
 
             //--------Act--------
@@ -155,12 +140,11 @@ namespace StringCalculatorKata.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void Add_GivenMultipleDelimitersWithAnyLenght_ShouldReturnSum()
+        [TestCase("//[*][%]\n1*2%3", 6)]
+        [TestCase("//[****][##][==]\n34****2##54==43", 133)]
+        public void Add_GivenMultipleDelimitersWithAnyLength_ShouldReturnSum(string input, int expected)
         {
             //------Arrange-------
-            var input = "//[*][%]\n1*2%3";
-            var expected = 6;
             var sut = CreateCalculator();
 
             //--------Act--------
@@ -169,6 +153,7 @@ namespace StringCalculatorKata.Tests
             //------Assert-------
             Assert.AreEqual(expected, actual);
         }
+
         private static StringCalculator CreateCalculator()
         {
             return new StringCalculator();
